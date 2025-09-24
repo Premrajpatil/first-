@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Shopping Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    #product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      text-align: center;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 8px 15px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .cart {
+      background: #fff;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 600px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+
+    .cart-total {
+      text-align: right;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Online Store</h1>
+
+  <div id="product-list"></div>
+
+  <div class="cart">
+    <h2>Shopping Cart</h2>
+    <div id="cart-items"></div>
+    <p class="cart-total"><strong>Total: $<span id="cart-total">0.00</span></strong></p>
+  </div>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: 'Classic White T-Shirt',
+        price: 14.99,
+        image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.sporto.in%2Fproducts%2Fmens-cotton-white-solid-round-neck-half-sleeve-t-shirt-637%3Fsrsltid%3DAfmBOorZFo_3PMkwZWXhmVlJQQezXpLriyPI9DdoUTWxb8a76fNLfs15&psig=AOvVaw26mKWh_78DkQuJwiSTQqBZ&ust=1753954954970000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCIjMu_ql5I4DFQAAAAAdAAAAABAE'
+      },
+      {
+        id: 2,
+        name: 'Blue Jeans',
+        price: 34.99,
+        image: 'https://images.unsplash.com/photo-1600185365722-0a4c1b8d6b6c?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 3,
+        name: 'Black Running Shoes',
+        price: 59.99,
+        image: 'https://images.unsplash.com/photo-1600180758890-d4ec77c2cc97?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 4,
+        name: 'Gray Hoodie',
+        price: 29.99,
+        image: 'https://images.unsplash.com/photo-1585386959984-a41552253aa3?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 5,
+        name: 'Red Baseball Cap',
+        price: 12.99,
+        image: 'https://images.unsplash.com/photo-1593032457869-92554f84e3a0?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 6,
+        name: 'Leather Jacket',
+        price: 89.99,
+        image: 'https://images.unsplash.com/photo-1602810310971-7b7ac8e4a4b9?auto=format&fit=crop&w=400&q=80'
+      }
+    ];
+
+    const cart = [];
+
+    const productList = document.getElementById('product-list');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+
+    function renderProducts() {
+      products.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>$${product.price.toFixed(2)}</p>
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+        productList.appendChild(div);
+      });
+    }
+
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      cart.push(product);
+      renderCart();
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        cartItems.appendChild(div);
+        total += item.price;
+      });
+
+      cartTotal.textContent = total.toFixed(2);
+    }
+
+    renderProducts();
+  </script>
+
+</body>
+</html>
